@@ -13,6 +13,7 @@ namespace Core.Specifications
         {
 			Criateria = criteria;
 		}
+		// this cratiria will sending to spec evalutor 
         public BaseSpecification()
         {
             

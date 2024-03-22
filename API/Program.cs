@@ -1,6 +1,7 @@
 using API.Middleware;
 using Core.Interfaces;
 using Infrastucture.Data;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
@@ -22,6 +23,14 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("CorsPolicy", policy =>
+    {
+		policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200");
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,6 +47,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseHttpsRedirection();
+
+app.UseCors("CorsPolicy");
 
 app.UseAuthorization();
 
