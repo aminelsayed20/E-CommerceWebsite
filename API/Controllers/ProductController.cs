@@ -43,6 +43,12 @@ namespace Infrastucture.Controllers
 			//var data = Ok(products.Select(product => _Mapper.Map<Product, ProductDto>(product))); // another way
 			return Ok (new Pagination<ProductDto> (productParams.PageIndex, productParams.PageSize, totalItems, data));
 		}
+		[HttpGet("test")]
+		public IActionResult getTest ()
+		{
+			var product = new ProductDto { Id = 1, Name="test" };
+			return Ok(product);
+		}
 
 		[HttpGet("{id}")]
 		public async Task<ActionResult<ProductDto>> GetProduct(int id)
