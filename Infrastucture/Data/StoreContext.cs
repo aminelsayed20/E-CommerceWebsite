@@ -7,7 +7,7 @@ namespace Infrastucture.Data
 {
 	public class StoreContext : DbContext
 	{
-        public StoreContext(DbContextOptions options) :base(options) {}
+        public StoreContext(DbContextOptions<StoreContext> options) :base(options) {}
 
 		public DbSet<Product> Products { get; set; }
 		public DbSet<ProductBrand> productBrands { get; set; }
@@ -22,7 +22,7 @@ namespace Infrastucture.Data
 
 
 			// to solve "order by price" problem -> sqlite does not support to orderBy the decimal value
-			// so i covert all decimal value to double before orderBy
+			// so i convert all decimal value to double before orderBy
 
 			if (Database.ProviderName == "Microsoft.EntityFrameworkCore.Sqlite")
 			{

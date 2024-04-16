@@ -5,9 +5,9 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "API\API.csproj", "{69FF06EA-D20B-4357-9E54-3101AADE6FBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastucture", "Infrastucture\Infrastucture.csproj", "{054B4152-94E3-4D34-98DF-03E73292D53F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastucture", "Infrastucture\Infrastucture.csproj", "{054B4152-94E3-4D34-98DF-03E73292D53F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{F0B5B8CE-67E7-4E62-9298-B8EAD4660794}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{F0B5B8CE-67E7-4E62-9298-B8EAD4660794}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

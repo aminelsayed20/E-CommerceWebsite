@@ -1,8 +1,11 @@
 using API.Middleware;
+using Core.Identity;
 using Core.Interfaces;
 using Infrastucture.Data;
+using Infrastucture.Identity;
 using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 using System.Diagnostics;
@@ -14,12 +17,26 @@ builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(); 
 
 builder.Services.AddDbContext<StoreContext>(opt =>
 {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddDbContext<AppIdentityDbContext>(opt =>
+{
+	opt.UseSqlite(builder.Configuration.GetConnectionString("IdentityConnection"));
+});
+builder.Services.AddIdentityCore<AppUser>(opt =>
+{
+
+})
+    .AddEntityFrameworkStores<AppIdentityDbContext>()
+    .AddSignInManager<SignInManager<AppUser>>();
+
+builder.Services.AddAuthentication();
+builder.Services.AddAuthorization();
+
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(c => //setting the Redis for store the basket
 {
@@ -70,11 +87,16 @@ using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 var context = services.GetRequiredService<StoreContext>();
 
+var identityContext = services.GetRequiredService<AppIdentityDbContext>();
+var userManager = services.GetRequiredService<UserManager<AppUser>>();
+
 var logger = services.GetRequiredService<ILogger<Program>>();
 try
 {
     await context.Database.MigrateAsync();
+    await identityContext.Database.MigrateAsync();
     await StoreContextSeed.SeedAsync(context);
+    await AppIdentityDbContextSeed.SeedUserAsync(userManager);
 }
 catch(Exception ex)
 {
